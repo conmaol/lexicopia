@@ -31,7 +31,7 @@ if ($id) {
 else {
   echo <<<HTML
 	<h1>PIE</h1>
-	<p>*<a href="?id=1">h<sub>2</sub>eǵ-</a></p>
+	<!--<p>*<a href="?id=1">h<sub>2</sub>eǵ-</a></p>-->
 	<p>*<a href="?id=11">sed-</a></p>
 	<h1>Latin</h1>
 	<p><a href="?id=113">sédeō</a>, <a href="?id=80">sī́dō</a></p>
