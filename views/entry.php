@@ -185,6 +185,9 @@ class entry {
 		else if ($lang=="ang") {
       return "Anglo-Saxon";
     }
+		else if ($lang=="de") {
+      return "German";
+    }
   }
 
   private function _describeLink($rel,$dir) {
@@ -330,6 +333,9 @@ class entry {
     }
 		if ($rel=="123p") {
         return "plural";
+    }
+		if ($rel=="13p") {
+        return "first/third person plural";
     }
     if ($rel=="p1s") {
         return "first person singular secondary";
