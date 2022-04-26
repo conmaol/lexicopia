@@ -41,6 +41,8 @@ else {
 	<p><a href="?id=233">suidh</a></p>
   <h1>Anglo-Saxon</h1>
 	<p><a href="?id=241">sittan</a>, <a href="?id=256">settan</a></p>
+  <h1>German</h1>
+	<p><a href="?id=270">sitzen</a></p>
 HTML;
 
 }
