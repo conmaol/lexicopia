@@ -61,9 +61,17 @@ class entry {
       $conjugatedForms = [];
       $derivatives = [];
       $etymons = [];
+			$cfs = [];
+			$compounds = [];
       foreach ($tos as $nextTo) {
         if ($nextTo[1]=="etymon") {
           $etymons[] = $nextTo;
+        }
+				else if ($nextTo[1]=="cf") {
+          $cfs[] = $nextTo;
+        }
+				else if ($nextTo[1]=="compound") {
+          $compounds[] = $nextTo;
         }
         else if (strpos($nextTo[1],"1")!==FALSE || strpos($nextTo[1],"2")!==FALSE || strpos($nextTo[1],"3")!==FALSE) {
           $conjugatedForms[] = $nextTo;
@@ -92,11 +100,31 @@ class entry {
         }
         $html .= "</ul></dd>";
       }
+			if ($compounds) {
+        $html .= "<dt>Compounds</dt><dd><ul>";
+        foreach ($compounds as $nextTo) {
+          $html .= "<li><a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
+          $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        $html .= "</ul></dd>";
+      }
       if ($etymons) {
         $html .= "<dt>Etymon of </dt><dd><ul>";
         foreach ($etymons as $nextTo) {
           $lang2 = $nextTo[2];
           $html .= "<li>[" . $this->_nameLang($lang2) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        $html .= "</ul></dd>";
+      }
+			if ($cfs) {
+        $html .= "<dt>See also</dt><dd><ul>";
+        foreach ($cfs as $nextTo) {
+          $html .= "<li><a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
           $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
           $html .= "</li>";
         }
@@ -153,6 +181,9 @@ class entry {
     }
 		else if ($lang=="gd") {
       return "Scottish Gaelic";
+    }
+		else if ($lang=="ang") {
+      return "Anglo-Saxon";
     }
   }
 
@@ -262,92 +293,46 @@ class entry {
       }
     }
     if ($rel=="1s") {
-      if ($dir=="to") {
-        return "has first person singular conjugated form";
-      }
-      else {
-        return "is first person singular conjugated form of";
-      }
+      return "first person singular";
     }
     if ($rel=="2s") {
-      if ($dir=="to") {
-        return "has second person singular conjugated form";
-      }
-      else {
-        return "is second person singular conjugated form of";
-      }
+        return "second person singular";
     }
     if ($rel=="3s") {
-      if ($dir=="to") {
-        return "has third person singular conjugated form";
-      }
-      else {
-        return "is third person singular conjugated form of";
-      }
+        return "third person singular";
+    }
+		if ($rel=="13s") {
+        return "first/third singular";
+    }
+		if ($rel=="123s") {
+        return "singular";
     }
     if ($rel=="1d") {
-      if ($dir=="to") {
-        return "has first person dual conjugated form";
-      }
-      else {
-        return "is first person dual conjugated form of";
-      }
+        return "first person dual";
     }
     if ($rel=="2d") {
-      if ($dir=="to") {
-        return "has second person dual conjugated form";
-      }
-      else {
-        return "is second person dual conjugated form of";
-      }
+        return "second person dual";
     }
     if ($rel=="3d") {
-      if ($dir=="to") {
-        return "has third person dual conjugated form";
-      }
-      else {
-        return "is third person dual conjugated form of";
-      }
+        return "third person dual";
     }
     if ($rel=="23d") {
-      if ($dir=="to") {
-        return "has second/third person dual conjugated form";
-      }
-      else {
-        return "is second/third person dual conjugated form of";
-      }
+        return "second/third person dual";
     }
     if ($rel=="1p") {
-      if ($dir=="to") {
-        return "has first person plural conjugated form";
-      }
-      else {
-        return "is first person plural conjugated form of";
-      }
+        return "first person plural";
     }
     if ($rel=="2p") {
-      if ($dir=="to") {
-        return "has second person plural conjugated form";
-      }
-      else {
-        return "is second person plural conjugated form of";
-      }
+        return "second person plural";
     }
     if ($rel=="3p") {
-      if ($dir=="to") {
-        return "has third person plural conjugated form";
-      }
-      else {
-        return "is third person plural conjugated form of";
-      }
+        return "third person plural";
+    }
+		if ($rel=="123p") {
+        return "plural";
     }
     if ($rel=="p1s") {
-      if ($dir=="to") {
-        return "has first person singular secondary conjugated form";
-      }
-      else {
-        return "is first person singular secondary conjugated form of";
-      }
+        return "first person singular secondary";
     }
     if ($rel=="p2s") {
       if ($dir=="to") {
