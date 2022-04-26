@@ -37,6 +37,8 @@ else {
 	<p><a href="?id=113">sédeō</a>, <a href="?id=80">sī́dō</a></p>
 	<h1>Old Gaelic</h1>
 	<p><a href="?id=202">saidid</a></p>
+  <h1>Scottish Gaelic</h1>
+	<p><a href="?id=233">suidh</a></p>
 HTML;
 
 }

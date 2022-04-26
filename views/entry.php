@@ -151,6 +151,9 @@ class entry {
     else if ($lang=="sga") {
       return "Old Gaelic";
     }
+		else if ($lang=="gd") {
+      return "Scottish Gaelic";
+    }
   }
 
   private function _describeLink($rel,$dir) {
