@@ -36,17 +36,16 @@ class entry {
         }
       }
       if ($others) {
-        $html .= "<dt>Derivative of</dt><dd><ul>";
         foreach ($others as $nextFrom) {
-          $html .= "<li>[" . $this->_describeLink($nextFrom[1],"from") . "] <a href=\"?id=" . $nextFrom[0] . "\">" ;
+					$html .= "<dt>" . ucfirst($this->_describeLink($nextFrom[1])) . " of</dt><dd>";
+          $html .= "<a href=\"?id=" . $nextFrom[0] . "\">" ;
           $lang2 = $nextFrom[2];
           $html .= $this->_normalise($nextFrom[3],$lang2) . "</a> ";
-          $html .= "</li>";
+					$html .= "</dd>";
         }
-        $html .= "</ul></dd>";
       }
       if ($etymons) {
-        $html .= "<dt>Etymon(s)</dt><dd><ul>";
+        $html .= "<dt>Etymons</dt><dd><ul>";
         foreach ($etymons as $nextFrom) {
           $lang2 = $nextFrom[2];
           $html .= "<li>[" . $this->_nameLang($lang2) . "] <a href=\"?id=" . $nextFrom[0] . "\">" ;
@@ -83,7 +82,7 @@ class entry {
       if ($conjugatedForms) {
         $html .= "<dt>Conjugated forms</dt><dd><ul>";
         foreach ($conjugatedForms as $nextTo) {
-          $html .= "<li>[" . $this->_describeLink($nextTo[1],"to") . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
           $lang2 = $nextTo[2];
           $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
           $html .= "</li>";
@@ -93,7 +92,7 @@ class entry {
       if ($derivatives) {
         $html .= "<dt>Derivatives</dt><dd><ul>";
         foreach ($derivatives as $nextTo) {
-          $html .= "<li>[" . $this->_describeLink($nextTo[1],"to") . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
           $lang2 = $nextTo[2];
           $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
           $html .= "</li>";
@@ -131,6 +130,10 @@ class entry {
         $html .= "</ul></dd>";
       }
     }
+		$notes = $this->_model->getNotes();
+		if ($notes) {
+			$html .= "<dt>Notes</dt><dd>" . $notes . "</dd>";
+		}
     $html .= "</dl>";
 		echo $html;
 	}
@@ -156,7 +159,7 @@ class entry {
       $wordform = str_replace('N','n̥',$wordform);
       $wordform = '*' . $wordform;
     }
-    else if ($lang=="pit" || $lang=="pclt") {
+    else if ($lang=="pit" || $lang=="pclt" || $lang=="pde") {
       $wordform = '*' . $wordform;
     }
     $wordform = str_replace(' ','',$wordform);
@@ -188,113 +191,12 @@ class entry {
 		else if ($lang=="de") {
       return "German";
     }
+		else if ($lang=="pde") {
+      return "Proto-Germanic";
+    }
   }
 
-  private function _describeLink($rel,$dir) {
-    if ($rel=="basic_stem") {
-      if ($dir=="to") {
-        return "has basic stem";
-      }
-      else {
-        return "is basic stem of verb root";
-      }
-    }
-    if ($rel=="imperfective_stem") {
-      if ($dir=="to") {
-        return "has derived imperfective verb";
-      }
-      else {
-        return "is derived imperfective verb of";
-      }
-    }
-    if ($rel=="subjunctive_stem") {
-      if ($dir=="to") {
-        return "has derived subjunctive stem";
-      }
-      else {
-        return "is derived subjunctive stem of";
-      }
-    }
-    if ($rel=="optative_stem") {
-      if ($dir=="to") {
-        return "has derived optative stem";
-      }
-      else {
-        return "is derived optative stem of";
-      }
-    }
-    if ($rel=="causative_stem") {
-      if ($dir=="to") {
-        return "has derived causative verb";
-      }
-      else {
-        return "is derived causative verb of";
-      }
-    }
-    if ($rel=="imperfect_stem") {
-      if ($dir=="to") {
-        return "has imperfect tense stem";
-      }
-      else {
-        return "is imperfect tense stem of";
-      }
-    }
-    if ($rel=="future_stem") {
-      if ($dir=="to") {
-        return "has future tense stem";
-      }
-      else {
-        return "is future tense stem of";
-      }
-    }
-    if ($rel=="future_subjunctive_stem") {
-      if ($dir=="to") {
-        return "has future/subjunctive stem";
-      }
-      else {
-        return "is future/subjunctive stem of";
-      }
-    }
-    if ($rel=="pluperfect_subjunctive_stem") {
-      if ($dir=="to") {
-        return "has pluperfect subjunctive stem";
-      }
-      else {
-        return "is pluperfect subjunctive stem of";
-      }
-    }
-    if ($rel=="pluperfect_stem") {
-      if ($dir=="to") {
-        return "has pluperfect tense stem";
-      }
-      else {
-        return "is pluperfect tense stem of";
-      }
-    }
-    if ($rel=="present_subjunctive_stem") {
-      if ($dir=="to") {
-        return "has present subjunctive stem";
-      }
-      else {
-        return "is present subjunctive stem of";
-      }
-    }
-    if ($rel=="imperfect_subjunctive_stem") {
-      if ($dir=="to") {
-        return "has imperfect subjunctive stem";
-      }
-      else {
-        return "is imperfect subjunctive stem of";
-      }
-    }
-    if ($rel=="perfect_stem") {
-      if ($dir=="to") {
-        return "has perfect stem";
-      }
-      else {
-        return "is perfect stem of";
-      }
-    }
+  private function _describeLink($rel) {
     if ($rel=="1s") {
       return "first person singular";
     }
@@ -305,10 +207,13 @@ class entry {
         return "third person singular";
     }
 		if ($rel=="13s") {
-        return "first/third singular";
+        return "first/third person singular";
     }
 		if ($rel=="123s") {
         return "singular";
+    }
+		if ($rel=="23s2p") {
+        return "second/third person singular; second person plural";
     }
     if ($rel=="1d") {
         return "first person dual";
@@ -336,81 +241,6 @@ class entry {
     }
 		if ($rel=="13p") {
         return "first/third person plural";
-    }
-    if ($rel=="p1s") {
-        return "first person singular secondary";
-    }
-    if ($rel=="p2s") {
-      if ($dir=="to") {
-        return "has second person singular secondary conjugated form";
-      }
-      else {
-        return "is second person singular secondary conjugated form of";
-      }
-    }
-    if ($rel=="p3s") {
-      if ($dir=="to") {
-        return "has third person singular secondary conjugated form";
-      }
-      else {
-        return "is third person singular secondary conjugated form of";
-      }
-    }
-    if ($rel=="p1d") {
-      if ($dir=="to") {
-        return "has first person dual secondary conjugated form";
-      }
-      else {
-        return "is first person dual secondary conjugated form of";
-      }
-    }
-    if ($rel=="p2d") {
-      if ($dir=="to") {
-        return "has second person dual secondary conjugated form";
-      }
-      else {
-        return "is second person dual secondary conjugated form of";
-      }
-    }
-    if ($rel=="p3d") {
-      if ($dir=="to") {
-        return "has third person dual secondary conjugated form";
-      }
-      else {
-        return "is third person dual secondary conjugated form of";
-      }
-    }
-    if ($rel=="p23d") {
-      if ($dir=="to") {
-        return "has second/third person dual secondary conjugated form";
-      }
-      else {
-        return "is second/third person dual secondary conjugated form of";
-      }
-    }
-    if ($rel=="p1p") {
-      if ($dir=="to") {
-        return "has first person plural secondary conjugated form";
-      }
-      else {
-        return "is first person plural secondary conjugated form of";
-      }
-    }
-    if ($rel=="p2p") {
-      if ($dir=="to") {
-        return "has second person plural secondary conjugated form";
-      }
-      else {
-        return "is second person plural secondary conjugated form of";
-      }
-    }
-    if ($rel=="p3p") {
-      if ($dir=="to") {
-        return "has third person plural secondary conjugated form";
-      }
-      else {
-        return "is third person plural secondary conjugated form of";
-      }
     }
     else return $rel;
   }

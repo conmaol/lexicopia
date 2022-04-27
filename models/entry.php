@@ -11,6 +11,7 @@ class entry {
   private $_gloss;
   private $_tos = [];
   private $_froms = [];
+  private $_notes;
   private $_db;   // an instance of models\database
 
 	public function __construct($id) {
@@ -23,6 +24,7 @@ class entry {
     $this->_lang = $result["lang"];
     $this->_morphoSyntax = $result["morphosyntax"];
     $this->_gloss = $result["gloss"];
+    $this->_notes = $result["notes"];
     //tos
     $sql = <<<SQL
 SELECT lexicopia_links.from_id, lexicopia_links.type, lexicopia.lang, lexicopia.wordform
@@ -63,6 +65,10 @@ SQL;
 
   public function getGloss() {
     return $this->_gloss;
+  }
+
+  public function getNotes() {
+    return $this->_notes;
   }
 
   public function getTos() {
