@@ -58,6 +58,10 @@ class entry {
     $tos = $this->_model->getTos();
     if ($tos) {
       $conjugatedForms = [];
+			$subjunctives = [];
+			$optatives = [];
+			$middles = [];
+			$imperfectives = [];
       $derivatives = [];
       $etymons = [];
 			$cfs = [];
@@ -71,6 +75,18 @@ class entry {
         }
 				else if ($nextTo[1]=="compound") {
           $compounds[] = $nextTo;
+        }
+				else if ($nextTo[1]=="subjunctive") {
+          $subjunctives[] = $nextTo;
+        }
+				else if ($nextTo[1]=="optative") {
+          $optatives[] = $nextTo;
+        }
+				else if ($nextTo[1]=="middle") {
+          $middles[] = $nextTo;
+        }
+				else if ($nextTo[1]=="imperfective") {
+          $imperfectives[] = $nextTo;
         }
         else if (strpos($nextTo[1],"1")!==FALSE || strpos($nextTo[1],"2")!==FALSE || strpos($nextTo[1],"3")!==FALSE) {
           $conjugatedForms[] = $nextTo;
@@ -89,8 +105,36 @@ class entry {
         }
         $html .= "</ul></dd>";
       }
+			if ($subjunctives || $optatives) {
+				$html .= "<dt>Moods etc.</dt><dd><ul>";
+				foreach ($subjunctives as $nextTo) {
+					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= "</li>";
+				}
+				foreach ($optatives as $nextTo) {
+					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= "</li>";
+				}
+				foreach ($middles as $nextTo) {
+					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= "</li>";
+				}
+				$html .= "</ul></dd>";
+			}
       if ($derivatives) {
         $html .= "<dt>Derivatives</dt><dd><ul>";
+				foreach ($imperfectives as $nextTo) {
+          $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
+          $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
         foreach ($derivatives as $nextTo) {
           $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
           $lang2 = $nextTo[2];
@@ -155,11 +199,12 @@ class entry {
       $wordform = str_replace('h2','h<sub>2</sub>',$wordform);
       $wordform = str_replace('h1','h<sub>1</sub>',$wordform);
       $wordform = str_replace('gj','ǵ',$wordform);
+			$wordform = str_replace('dh','d<sup>h</sup>',$wordform);
       $wordform = str_replace('M','m̥',$wordform);
       $wordform = str_replace('N','n̥',$wordform);
       $wordform = '*' . $wordform;
     }
-    else if ($lang=="pit" || $lang=="pclt" || $lang=="pde") {
+    else if ($lang=="pit" || $lang=="pclt" || $lang=="pde" || $lang=="pii" || $lang=="pia") {
       $wordform = '*' . $wordform;
     }
     $wordform = str_replace(' ','',$wordform);
@@ -193,6 +238,15 @@ class entry {
     }
 		else if ($lang=="pde") {
       return "Proto-Germanic";
+    }
+		else if ($lang=="pii") {
+      return "Proto-Indo-Iranian";
+    }
+		else if ($lang=="pia") {
+      return "Proto-Indo-Aryan";
+    }
+		else if ($lang=="skt") {
+      return "Sanskrit";
     }
   }
 
@@ -241,6 +295,9 @@ class entry {
     }
 		if ($rel=="13p") {
         return "first/third person plural";
+    }
+		if ($rel=="123dp") {
+        return "non-singular";
     }
     else return $rel;
   }

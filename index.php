@@ -43,6 +43,8 @@ else {
 	<p><a href="?id=241">sittan</a>, <a href="?id=256">settan</a></p>
   <h1>German</h1>
 	<p><a href="?id=270">sitzen</a>, <a href="?id=291">setzen</a></p>
+  <h1>Sanskrit</h1>
+	<p><a href="?id=362">सीदति</a></p>
 HTML;
 
 }
