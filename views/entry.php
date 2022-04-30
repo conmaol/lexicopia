@@ -58,6 +58,8 @@ class entry {
     $tos = $this->_model->getTos();
     if ($tos) {
       $conjugatedForms = [];
+			$presents = [];
+			$pasts = [];
 			$subjunctives = [];
 			$optatives = [];
 			$middles = [];
@@ -75,6 +77,12 @@ class entry {
         }
 				else if ($nextTo[1]=="compound") {
           $compounds[] = $nextTo;
+        }
+				else if ($nextTo[1]=="present") {
+          $presents[] = $nextTo;
+        }
+				else if ($nextTo[1]=="past") {
+          $pasts[] = $nextTo;
         }
 				else if ($nextTo[1]=="subjunctive") {
           $subjunctives[] = $nextTo;
@@ -105,8 +113,20 @@ class entry {
         }
         $html .= "</ul></dd>";
       }
-			if ($subjunctives || $optatives) {
-				$html .= "<dt>Moods etc.</dt><dd><ul>";
+			if ($presents || $pasts || $subjunctives || $optatives || $middles) {
+				$html .= "<dt>Tenses, moods etc.</dt><dd><ul>";
+				foreach ($presents as $nextTo) {
+					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= "</li>";
+				}
+				foreach ($pasts as $nextTo) {
+					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= "</li>";
+				}
 				foreach ($subjunctives as $nextTo) {
 					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
 					$lang2 = $nextTo[2];
@@ -247,6 +267,9 @@ class entry {
     }
 		else if ($lang=="skt") {
       return "Sanskrit";
+    }
+		else if ($lang=="got") {
+      return "Gothic";
     }
   }
 

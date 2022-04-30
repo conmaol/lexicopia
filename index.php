@@ -32,17 +32,17 @@ else {
   echo <<<HTML
 	<h1>PIE</h1>
 	<!--<p>*<a href="?id=1">h<sub>2</sub>eǵ-</a></p>-->
-	<p>*<a href="?id=11">sed-</a></p>
+	<p>*<a href="?id=11">séd(t)</a></p>
 	<h1>Latin</h1>
-	<p><a href="?id=113">sédeō</a>, <a href="?id=80">sī́dō</a></p>
+	<p><a href="?id=113">séde(ō)</a>, <a href="?id=80">sī́d(ō)</a></p>
 	<h1>Old Gaelic</h1>
-	<p><a href="?id=202">saidid</a></p>
+	<p><a href="?id=202">said(id)</a></p>
   <h1>Scottish Gaelic</h1>
 	<p><a href="?id=233">suidh</a></p>
   <h1>Anglo-Saxon</h1>
-	<p><a href="?id=241">sittan</a>, <a href="?id=256">settan</a></p>
+	<p><a href="?id=241">sitt(an)</a>, <a href="?id=256">sett(an)</a></p>
   <h1>German</h1>
-	<p><a href="?id=270">sitzen</a>, <a href="?id=291">setzen</a></p>
+	<p><a href="?id=270">sitz(en)</a>, <a href="?id=291">setz(en)</a></p>
   <h1>Sanskrit</h1>
 	<p><a href="?id=362">सीदति</a></p>
 HTML;
