@@ -6,18 +6,16 @@ use models;
 class entry {
 
 	private $_model;   // an instance of models\entry
-  private $_db;
 
 	public function __construct($model) {
 		$this->_model = $model;
-    $this->_db = new models\database();
 	}
 
 	public function show() {
     $lang = $this->_model->getLang();
-    $html = "<h1>" . $this->_normalise($this->_model->getWordform(),$lang) . "</h1>";
+    $html = "<h1>" . models\language::normalise($this->_model->getWordform(),$lang) . "</h1>";
     $html .= "<dl>";
-    $html .= "<dt>Language</dt><dd>" . $this->_nameLang($lang) . "</dd>";
+    $html .= "<dt>Language</dt><dd>" . models\language::nameLang($lang) . "</dd>";
     $morph = $this->_model->getMorphoSyntax();
     if ($morph) {
       $html .= "<dt>Morphosyntax</dt><dd>" . $morph . "</dd>";
@@ -40,7 +38,7 @@ class entry {
 					$html .= "<dt>" . ucfirst($this->_describeLink($nextFrom[1])) . " of</dt><dd>";
           $html .= "<a href=\"?id=" . $nextFrom[0] . "\">" ;
           $lang2 = $nextFrom[2];
-          $html .= $this->_normalise($nextFrom[3],$lang2) . "</a> ";
+          $html .= models\language::normalise($nextFrom[3],$lang2) . "</a> ";
 					$html .= "</dd>";
         }
       }
@@ -48,8 +46,8 @@ class entry {
         $html .= "<dt>Etymons</dt><dd><ul>";
         foreach ($etymons as $nextFrom) {
           $lang2 = $nextFrom[2];
-          $html .= "<li>[" . $this->_nameLang($lang2) . "] <a href=\"?id=" . $nextFrom[0] . "\">" ;
-          $html .= $this->_normalise($nextFrom[3],$lang2) . "</a> ";
+          $html .= "<li>[" . models\language::nameLang($lang2) . "] <a href=\"?id=" . $nextFrom[0] . "\">" ;
+          $html .= models\language::normalise($nextFrom[3],$lang2) . "</a> ";
           $html .= "</li>";
         }
         $html .= "</ul></dd>";
@@ -108,7 +106,7 @@ class entry {
         foreach ($conjugatedForms as $nextTo) {
           $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
           $lang2 = $nextTo[2];
-          $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
           $html .= "</li>";
         }
         $html .= "</ul></dd>";
@@ -118,31 +116,31 @@ class entry {
 				foreach ($presents as $nextTo) {
 					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
 					$lang2 = $nextTo[2];
-					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
 					$html .= "</li>";
 				}
 				foreach ($pasts as $nextTo) {
 					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
 					$lang2 = $nextTo[2];
-					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
 					$html .= "</li>";
 				}
 				foreach ($subjunctives as $nextTo) {
 					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
 					$lang2 = $nextTo[2];
-					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
 					$html .= "</li>";
 				}
 				foreach ($optatives as $nextTo) {
 					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
 					$lang2 = $nextTo[2];
-					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
 					$html .= "</li>";
 				}
 				foreach ($middles as $nextTo) {
 					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
 					$lang2 = $nextTo[2];
-					$html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
 					$html .= "</li>";
 				}
 				$html .= "</ul></dd>";
@@ -152,13 +150,13 @@ class entry {
 				foreach ($imperfectives as $nextTo) {
           $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
           $lang2 = $nextTo[2];
-          $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
           $html .= "</li>";
         }
         foreach ($derivatives as $nextTo) {
           $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
           $lang2 = $nextTo[2];
-          $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
           $html .= "</li>";
         }
         $html .= "</ul></dd>";
@@ -168,7 +166,7 @@ class entry {
         foreach ($compounds as $nextTo) {
           $html .= "<li><a href=\"?id=" . $nextTo[0] . "\">" ;
           $lang2 = $nextTo[2];
-          $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
           $html .= "</li>";
         }
         $html .= "</ul></dd>";
@@ -177,8 +175,8 @@ class entry {
         $html .= "<dt>Etymon of </dt><dd><ul>";
         foreach ($etymons as $nextTo) {
           $lang2 = $nextTo[2];
-          $html .= "<li>[" . $this->_nameLang($lang2) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-          $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "<li>[" . models\language::nameLang($lang2) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
           $html .= "</li>";
         }
         $html .= "</ul></dd>";
@@ -188,7 +186,7 @@ class entry {
         foreach ($cfs as $nextTo) {
           $html .= "<li><a href=\"?id=" . $nextTo[0] . "\">" ;
           $lang2 = $nextTo[2];
-          $html .= $this->_normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
           $html .= "</li>";
         }
         $html .= "</ul></dd>";
@@ -201,77 +199,6 @@ class entry {
     $html .= "</dl>";
 		echo $html;
 	}
-
-  private function _normalise($wordform,$lang) {
-    $wordform = str_replace('aa','ā',$wordform);
-    $wordform = str_replace('ee','ē',$wordform);
-    $wordform = str_replace('ii','ī',$wordform);
-    $wordform = str_replace('oo','ō',$wordform);
-    $wordform = str_replace('uu','ū',$wordform);
-    $wordform = str_replace('AA','ā́',$wordform);
-    $wordform = str_replace('EE','ḗ',$wordform);
-    $wordform = str_replace('II','ī́',$wordform);
-    $wordform = str_replace('A','á',$wordform);
-    $wordform = str_replace('E','é',$wordform);
-    $wordform = str_replace('I','í',$wordform);
-    $wordform = str_replace('O','ó',$wordform);
-    if ($lang=="pie") {
-      $wordform = str_replace('h2','h<sub>2</sub>',$wordform);
-      $wordform = str_replace('h1','h<sub>1</sub>',$wordform);
-      $wordform = str_replace('gj','ǵ',$wordform);
-			$wordform = str_replace('dh','d<sup>h</sup>',$wordform);
-      $wordform = str_replace('M','m̥',$wordform);
-      $wordform = str_replace('N','n̥',$wordform);
-      $wordform = '*' . $wordform;
-    }
-    else if ($lang=="pit" || $lang=="pclt" || $lang=="pde" || $lang=="pii" || $lang=="pia") {
-      $wordform = '*' . $wordform;
-    }
-    $wordform = str_replace(' ','',$wordform);
-    return $wordform;
-  }
-
-  private function _nameLang($lang) {
-    if ($lang=="pie") {
-      return "Proto-Indo-European";
-    }
-    else if ($lang=="pit") {
-      return "Proto-Italic";
-    }
-    else if ($lang=="pclt") {
-      return "Proto-Celtic";
-    }
-    else if ($lang=="la") {
-      return "Latin";
-    }
-    else if ($lang=="sga") {
-      return "Old Gaelic";
-    }
-		else if ($lang=="gd") {
-      return "Scottish Gaelic";
-    }
-		else if ($lang=="ang") {
-      return "Anglo-Saxon";
-    }
-		else if ($lang=="de") {
-      return "German";
-    }
-		else if ($lang=="pde") {
-      return "Proto-Germanic";
-    }
-		else if ($lang=="pii") {
-      return "Proto-Indo-Iranian";
-    }
-		else if ($lang=="pia") {
-      return "Proto-Indo-Aryan";
-    }
-		else if ($lang=="skt") {
-      return "Sanskrit";
-    }
-		else if ($lang=="got") {
-      return "Gothic";
-    }
-  }
 
   private function _describeLink($rel) {
     if ($rel=="1s") {
