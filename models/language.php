@@ -64,6 +64,9 @@ class language {
 		else if ($lang=="pde") {
       return "Proto-Germanic";
     }
+    else if ($lang=="pwde") {
+      return "Proto-West-Germanic";
+    }
 		else if ($lang=="pii") {
       return "Proto-Indo-Iranian";
     }
@@ -114,7 +117,7 @@ class language {
       $wordform = str_replace('N','n̥',$wordform);
       $wordform = '*' . $wordform;
     }
-    else if ($lang=="pit" || $lang=="pclt" || $lang=="pde" || $lang=="pii" || $lang=="pia") {
+    else if ($lang=="pit" || $lang=="pclt" || $lang=="pde" || $lang=="pwde" || $lang=="pii" || $lang=="pia") {
       $wordform = '*' . $wordform;
     }
     if ($lang!="sga") { $wordform = str_replace(' ','',$wordform); }

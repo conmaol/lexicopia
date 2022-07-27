@@ -31,6 +31,7 @@ $sql = <<<SQL
   INSERT INTO lexicopia (`wordform`, `lang`, `gloss`, `morphosyntax`, `notes`)
     VALUES(:wordform, :lang, :gloss, :morphosyntax, :notes);
 SQL;
+
 $db->exec($sql, array(":wordform" => $stem, ":lang"=>"sga", ":gloss"=>$argv[2], ":morphosyntax"=>"masculine o-stem noun", ":notes"=>""));
 $db->exec($sql, array(":wordform" => $nomsg, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
 $db->exec($sql, array(":wordform" => $accsg, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));

@@ -13,7 +13,8 @@ class entry {
 
 	public function show() {
     $lang = $this->_model->getLang();
-    $html = "<h1>" . models\language::normalise($this->_model->getWordform(),$lang) . "</h1>";
+    //$html = "<h1>" . models\language::normalise($this->_model->getWordform(),$lang) . "</h1>";
+		$html = "<h1>" . $this->_model->getWordform() . "</h1>";
     $html .= "<dl>";
     $html .= "<dt>Language</dt><dd>" . models\language::nameLang($lang) . "</dd>";
     $morph = $this->_model->getMorphoSyntax();
@@ -199,6 +200,52 @@ class entry {
     $html .= "</dl>";
 		echo $html;
 	}
+
+	public function showTree() {
+		echo $this->_makeTree("");
+	}
+
+  private function _makeTree($bullet) {
+		$html = "<li>" . $bullet;
+    if ($bullet !== "➡️") {
+			$html .= "<small class=\"text-muted\">[";
+			$html .= models\language::nameLang($this->_model->getLang());
+			$html .= "]</small> ";
+		}
+		$html .= "<a href=\"?id=";
+		$html .= $this->_model->getId();
+		$html .= "\">";
+		$html .= $this->_model->getWordform();
+		$html .= "</a>";
+		$tos = $this->_model->getTos();
+    if ($tos) {
+			$html .= "<ul style=\"list-style-type:none\">";
+      $etymons = [];
+			$compounds = [];
+      foreach ($tos as $nextTo) {
+        if ($nextTo[1]=="etymon") {
+          $etymons[] = $nextTo;
+        }
+				else if ($nextTo[1]=="compound") {
+          $compounds[] = $nextTo;
+        }
+      }
+      if ($etymons) {
+        foreach ($etymons as $nextTo) {
+          $html .= (new entry(new models\entry($nextTo[0])))->_makeTree("↘️");
+        }
+      }
+			if ($compounds) {
+        foreach ($compounds as $nextTo) {
+          $html .= (new entry(new models\entry($nextTo[0])))->_makeTree("➡️");
+        }
+      }
+			$html .= "</ul>";
+    }
+		$html .= "</li>";
+		return $html;
+	}
+
 
   private function _describeLink($rel) {
     if ($rel=="1s") {
