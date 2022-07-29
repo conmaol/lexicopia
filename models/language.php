@@ -53,19 +53,25 @@ class language {
       return "Old Gaelic";
     }
 		else if ($lang=="gd") {
-      return "Scottish Gaelic";
+      return "Modern Scottish Gaelic";
     }
 		else if ($lang=="ang") {
       return "Anglo-Saxon";
     }
 		else if ($lang=="de") {
-      return "German";
+      return "Modern German";
     }
 		else if ($lang=="pde") {
       return "Proto-Germanic";
     }
     else if ($lang=="pwde") {
       return "Proto-West-Germanic";
+    }
+    else if ($lang=="ohde") {
+      return "Old High German";
+    }
+    else if ($lang=="mhde") {
+      return "Middle High German";
     }
 		else if ($lang=="pii") {
       return "Proto-Indo-Iranian";
@@ -83,31 +89,52 @@ class language {
       return "Proto-Brythonic";
     }
     else if ($lang=="br") {
-      return "Breton";
+      return "Modern Breton";
     }
     else if ($lang=="cy") {
-      return "Welsh";
+      return "Modern Welsh";
+    }
+    else if ($lang=="enm") {
+      return "Middle English";
+    }
+    else if ($lang=="en") {
+      return "Modern English";
+    }
+    else if ($lang=="phe") {
+      return "Proto-Hellenic";
+    }
+    else if ($lang=="grc") {
+      return "Ancient Greek";
+    }
+    else if ($lang=="el") {
+      return "Modern Greek";
+    }
+    else if ($lang=="xtg") {
+      return "Transalpine Gaulish";
+    }
+    else if ($lang=="es") {
+      return "Modern Spanish";
     }
   }
 
   public static function normalise($wordform,$lang) {
-    $wordform = str_replace('aa','ā',$wordform);
-    $wordform = str_replace('ee','ē',$wordform);
-    $wordform = str_replace('ii','ī',$wordform);
-    $wordform = str_replace('oo','ō',$wordform);
-    $wordform = str_replace('uu','ū',$wordform);
-    $wordform = str_replace('AA','ā́',$wordform);
-    $wordform = str_replace('EE','ḗ',$wordform);
-    $wordform = str_replace('II','ī́',$wordform);
-		$wordform = str_replace('OO','ṓ',$wordform);
-    $wordform = str_replace('UU','ū́',$wordform);
-    $wordform = str_replace('A','á',$wordform);
-    $wordform = str_replace('E','é',$wordform);
-    $wordform = str_replace('I','í',$wordform);
-    $wordform = str_replace('O','ó',$wordform);
-    $wordform = str_replace('U','ú',$wordform);
-    $wordform = str_replace('ī́í','I',$wordform);
     if ($lang=="pie") {
+      $wordform = str_replace('aa','ā',$wordform);
+      $wordform = str_replace('ee','ē',$wordform);
+      $wordform = str_replace('ii','ī',$wordform);
+      $wordform = str_replace('oo','ō',$wordform);
+      $wordform = str_replace('uu','ū',$wordform);
+      $wordform = str_replace('AA','ā́',$wordform);
+      $wordform = str_replace('EE','ḗ',$wordform);
+      $wordform = str_replace('II','ī́',$wordform);
+  		$wordform = str_replace('OO','ṓ',$wordform);
+      $wordform = str_replace('UU','ū́',$wordform);
+      $wordform = str_replace('A','á',$wordform);
+      $wordform = str_replace('E','é',$wordform);
+      $wordform = str_replace('I','í',$wordform);
+      $wordform = str_replace('O','ó',$wordform);
+      $wordform = str_replace('U','ú',$wordform);
+      $wordform = str_replace('ī́í','I',$wordform);
       $wordform = str_replace('h2','h<sub>2</sub>',$wordform);
       $wordform = str_replace('h1','h<sub>1</sub>',$wordform);
       $wordform = str_replace('gj','ǵ',$wordform);

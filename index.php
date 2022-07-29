@@ -36,11 +36,13 @@ else {
     $view->show();
   }
   else {
-    echo "<ul style=\"list-style-type:none; padding-left: 0;\">";
+    //echo "<ul style=\"list-style-type:none; padding-left: 0;\">";
   	(new views\entry(new models\entry("1188")))->showTree();
     (new views\entry(new models\entry("1291")))->showTree();
     (new views\entry(new models\entry("1293")))->showTree();
-    echo "</ul>";
+    (new views\entry(new models\entry("1331")))->showTree();
+    (new views\entry(new models\entry("1337")))->showTree();
+    //echo "</ul>";
   }
 }
 ?>

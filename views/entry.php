@@ -202,7 +202,9 @@ class entry {
 	}
 
 	public function showTree() {
+		echo "<ul style=\"list-style-type:none; padding-left: 0;\">";
 		echo $this->_makeTree("");
+		echo "</ul>";
 	}
 
   private function _makeTree($bullet) {
@@ -245,7 +247,6 @@ class entry {
 		$html .= "</li>";
 		return $html;
 	}
-
 
   private function _describeLink($rel) {
     if ($rel=="1s") {
