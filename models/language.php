@@ -91,8 +91,17 @@ class language {
     else if ($lang=="br") {
       return "Modern Breton";
     }
+    else if ($lang=="obt") {
+      return "Old Breton";
+    }
     else if ($lang=="cy") {
       return "Modern Welsh";
+    }
+    else if ($lang=="owl") {
+      return "Old Welsh";
+    }
+    else if ($lang=="wlm") {
+      return "Middle Welsh";
     }
     else if ($lang=="enm") {
       return "Middle English";
@@ -110,7 +119,7 @@ class language {
       return "Modern Greek";
     }
     else if ($lang=="xtg") {
-      return "Transalpine Gaulish";
+      return "Gaulish";
     }
     else if ($lang=="es") {
       return "Modern Spanish";

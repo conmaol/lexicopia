@@ -49,9 +49,6 @@ $db->exec($sql, array(":wordform" => $nomdl, ":lang"=>"sga", ":gloss"=>"", ":mor
 $db->exec($sql, array(":wordform" => $nomdl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
 $db->exec($sql, array(":wordform" => $datdl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
 
-
-
-
 $sql = <<<SQL
   SELECT id FROM lexicopia WHERE wordform = :wf AND lang = :lang AND morphosyntax = :ms
 SQL;
@@ -79,6 +76,62 @@ $db->exec($sql, array(":from" => $id+12, ":to"=>$id, ":type"=>"accusative dual")
 $db->exec($sql, array(":from" => $id+13, ":to"=>$id, ":type"=>"genitive dual"));
 $db->exec($sql, array(":from" => $id+14, ":to"=>$id, ":type"=>"dative dual"));
 
+echo "Adding definites '" . PHP_EOL;
+$nomsg = "a<sup>N</sup> " . $stem . "<sup>N</sup>";
+echo "Nom. sg. " . $nomsg . PHP_EOL;
+echo "Acc. sg. " . $nomsg . PHP_EOL;
+$gensg = "in<sup>L</sup> " . $stem . "<sup>L</sup>";
+echo "Gen. sg. " . $gensg . PHP_EOL;
+$datsg = "-(si)n<sup>L</sup> " . $stem . "<sup>L</sup>";
+echo "Dat. sg. " . $datsg . PHP_EOL;
+$nompl = "inna " . $stem . "<sup>L</sup>" . PHP_EOL;
+echo "Nom. pl. " . $nompl . PHP_EOL;
+echo "Acc. pl. " . $nompl . PHP_EOL;
+$genpl = "inna<sup>N</sup> " . $stem . "<sup>N</sup>";
+echo "Gen. pl. " . $genpl . PHP_EOL;
+$datpl = "-(s)naiḃ " . $stem . "aiḃ";
+echo "Dat. pl. " . $datpl . PHP_EOL;
+$nomdl = "in dá<sup>n</sup> " . $stem . "<sup>N</sup>";
+echo "Nom. dl. " . $nomdl . PHP_EOL;
+echo "Acc. dl. " . $nomdl . PHP_EOL;
+echo "Gen. dl. " . $nomdl . PHP_EOL;
+$datdl = "-(s)naiḃ díḃ " . $stem . "aiḃ";
+echo "Dat. dl. " . $datdl . PHP_EOL;
 
+$db = new models\database();
+
+$sql = <<<SQL
+  INSERT INTO lexicopia (`wordform`, `lang`, `gloss`, `morphosyntax`, `notes`)
+    VALUES(:wordform, :lang, :gloss, :morphosyntax, :notes);
+SQL;
+$db->exec($sql, array(":wordform" => $nomsg, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $nomsg, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $gensg, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $datsg, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $nompl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $nompl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $genpl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $datpl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $nomdl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $nomdl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $nomdl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+$db->exec($sql, array(":wordform" => $datdl, ":lang"=>"sga", ":gloss"=>"", ":morphosyntax"=>"", ":notes"=>""));
+
+$sql = <<<SQL
+  INSERT INTO lexicopia_links (`from_id`, `to_id`, `type`)
+    VALUES(:from, :to, :type);
+SQL;
+$db->exec($sql, array(":from" => $id+15, ":to"=>$id, ":type"=>"nominative singular definite"));
+$db->exec($sql, array(":from" => $id+16, ":to"=>$id, ":type"=>"accusative singular definite"));
+$db->exec($sql, array(":from" => $id+17, ":to"=>$id, ":type"=>"genitive singular definite"));
+$db->exec($sql, array(":from" => $id+18, ":to"=>$id, ":type"=>"dative singular definite"));
+$db->exec($sql, array(":from" => $id+19, ":to"=>$id, ":type"=>"nominative plural definite"));
+$db->exec($sql, array(":from" => $id+20, ":to"=>$id, ":type"=>"accusative plural definite"));
+$db->exec($sql, array(":from" => $id+21, ":to"=>$id, ":type"=>"genitive plural definite"));
+$db->exec($sql, array(":from" => $id+22, ":to"=>$id, ":type"=>"dative plural definite"));
+$db->exec($sql, array(":from" => $id+23, ":to"=>$id, ":type"=>"nominative dual definite"));
+$db->exec($sql, array(":from" => $id+24, ":to"=>$id, ":type"=>"accusative dual definite"));
+$db->exec($sql, array(":from" => $id+25, ":to"=>$id, ":type"=>"genitive dual definite"));
+$db->exec($sql, array(":from" => $id+26, ":to"=>$id, ":type"=>"dative dual definite"));
 
 echo "Dunnit" . PHP_EOL;

@@ -39,6 +39,14 @@ class language {
       }
     }
     $html .= "</ul>";
+		$html .= "<h3>o/ā-stem adjectives</h3>";
+		$html .= "<ul>";
+    foreach ($this->_model->getHeadwords() as $nextHw) {
+      if ($nextHw[2]=="o/ā-stem adjective") {
+        $html .= '<li><a href="?id=' . $nextHw[0] . '">' . $nextHw[1] . '</a></li>';
+      }
+    }
+    $html .= "</ul>";
 		echo $html;
   }
 
