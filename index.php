@@ -22,28 +22,26 @@ require_once 'includes/include.php';
     <div class="container-fluid">
 
 <?php
-$id = $_GET["id"];
-if ($id) {
+if (isset($_GET["id"])) { 
+  $id = $_GET["id"]; 
   $model = new models\entry($id);
 	$view = new views\entry($model);
 	$view->show();
 }
-else {
+else if (isset($_GET["lang"])) {
   $lang = $_GET["lang"];
-  if ($lang=="la" || $lang=="sga") {
-    $model = new models\language($lang);
-    $view = new views\language($model);
-    $view->show();
-  }
-  else {
-    //echo "<ul style=\"list-style-type:none; padding-left: 0;\">";
-  	(new views\entry(new models\entry("1188")))->showTree();
-    (new views\entry(new models\entry("1291")))->showTree();
-    (new views\entry(new models\entry("1293")))->showTree();
-    (new views\entry(new models\entry("1331")))->showTree();
-    (new views\entry(new models\entry("1337")))->showTree();
-    //echo "</ul>";
-  }
+  $model = new models\language($lang);
+  $view = new views\language($model);
+  $view->show();
+}
+else {
+  //echo "<ul style=\"list-style-type:none; padding-left: 0;\">";
+  (new views\entry(new models\entry("1188")))->showTree();
+  (new views\entry(new models\entry("1291")))->showTree();
+  (new views\entry(new models\entry("1293")))->showTree();
+  (new views\entry(new models\entry("1331")))->showTree();
+  (new views\entry(new models\entry("1337")))->showTree();
+  //echo "</ul>";
 }
 ?>
 

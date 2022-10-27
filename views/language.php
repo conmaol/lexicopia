@@ -18,6 +18,9 @@ class language {
 		else if ($this->_model->getId()=="sga") {
 			$this->printOldGaelic();
 		}
+    else if ($this->_model->getId()=="de") {
+      $this->printGerman();
+    }
   }
 
 	private function printOldGaelic() {
@@ -88,4 +91,17 @@ class language {
     echo $html;
   }
 
+  private function printGerman() {
+    $name = $this->_model->getName();
+    $html = "<h1>" . $name . "</h1>";
+    $html .= "<ul>";
+    foreach ($this->_model->getHeadwords() as $nextHw) {
+      $html .= '<li><a href="?id=' . $nextHw[0] . '">' . models\language::normalise($nextHw[1],$this->_model->getId()) . '</a></li>';
+      //if ($nextHw[2]=="masculine first declension proper noun") {
+        //$html .= '<li><a href="?id=' . $nextHw[0] . '">' . models\language::normalise($nextHw[1],$this->_model->getId()) . '</a></li>';
+      //}
+    }
+    $html .= "</ul>";
+    echo $html;
+  }
 }
