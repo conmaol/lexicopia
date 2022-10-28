@@ -59,7 +59,7 @@ class language {
       return "Anglo-Saxon";
     }
 		else if ($lang=="de") {
-      return "Modern German";
+      return "German";
     }
 		else if ($lang=="pde") {
       return "Proto-Germanic";
@@ -127,6 +127,7 @@ class language {
   }
 
   public static function normalise($wordform,$lang) {
+    if ($lang=="de") { return $wordform; } 
     if ($lang=="pie") {
       $wordform = str_replace('aa','ā',$wordform);
       $wordform = str_replace('ee','ē',$wordform);

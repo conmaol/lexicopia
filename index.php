@@ -35,13 +35,18 @@ else if (isset($_GET["lang"])) {
   $view->show();
 }
 else {
-  //echo "<ul style=\"list-style-type:none; padding-left: 0;\">";
+  echo "<ul style=\"list-style-type:none; padding-left: 0;\">";
+  echo "<li><a href=\"?lang=de\">German</a></li>";
+  echo "<li><a href=\"?lang=sga\">Old Gaelic</a></li>";
+  echo "</ul>";
+/*
   (new views\entry(new models\entry("1188")))->showTree();
   (new views\entry(new models\entry("1291")))->showTree();
   (new views\entry(new models\entry("1293")))->showTree();
   (new views\entry(new models\entry("1331")))->showTree();
   (new views\entry(new models\entry("1337")))->showTree();
-  //echo "</ul>";
+  */
+  
 }
 ?>
 

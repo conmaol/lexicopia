@@ -13,15 +13,186 @@ class entry {
 
 	public function show() {
     $lang = $this->_model->getLang();
-    //$html = "<h1>" . models\language::normalise($this->_model->getWordform(),$lang) . "</h1>";
-		$html = "<h1>" . $this->_model->getWordform() . "</h1>";
+    $html = "<h1>" . models\language::normalise($this->_model->getWordform(),$lang) . "</h1>";
+		//$html = "<h1>" . $this->_model->getWordform() . "</h1>";
     $html .= "<dl>";
-    $html .= "<dt>Language</dt><dd>" . models\language::nameLang($lang) . "</dd>";
+    $html .= "<dt>Language</dt><dd><a href=\"?lang=" . $lang . "\">" . models\language::nameLang($lang) . "</a></dd>";
     $morph = $this->_model->getMorphoSyntax();
     if ($morph) {
       $html .= "<dt>Morphosyntax</dt><dd>" . $morph . "</dd>";
     }
-    $html .= "<dt>Gloss</dt><dd>" . $this->_model->getGloss() . "</dd>";
+    $gloss = $this->_model->getGloss();
+    if ($gloss) {
+      $html .= "<dt>Gloss</dt><dd>" . $gloss . "</dd>";
+    }
+    
+    $tos = $this->_model->getTos();
+    if ($tos) {
+      $conjugatedForms = [];
+			$presents = [];
+			$pasts = [];
+			$subjunctives = [];
+			$optatives = [];
+			$middles = [];
+			$imperfectives = [];
+      $derivatives = [];
+      $etymons = [];
+			$cfs = [];
+			$compounds = [];
+      $others = [];
+      foreach ($tos as $nextTo) {
+        if ($nextTo[1]=="etymon") {
+          $etymons[] = $nextTo;
+        }
+				else if ($nextTo[1]=="cf") {
+          $cfs[] = $nextTo;
+        }
+				else if ($nextTo[1]=="compound") {
+          $compounds[] = $nextTo;
+        }
+        else if ($nextTo[1]=="derivative") {
+          $derivatives[] = $nextTo;
+        }
+				else if ($nextTo[1]=="present") {
+          $presents[] = $nextTo;
+        }
+				else if ($nextTo[1]=="past") {
+          $pasts[] = $nextTo;
+        }
+				else if ($nextTo[1]=="subjunctive") {
+          $subjunctives[] = $nextTo;
+        }
+				else if ($nextTo[1]=="optative") {
+          $optatives[] = $nextTo;
+        }
+				else if ($nextTo[1]=="middle") {
+          $middles[] = $nextTo;
+        }
+				else if ($nextTo[1]=="imperfective") {
+          $imperfectives[] = $nextTo;
+        }
+        else if (strpos($nextTo[1],"1")!==FALSE || strpos($nextTo[1],"2")!==FALSE || strpos($nextTo[1],"3")!==FALSE) {
+          $conjugatedForms[] = $nextTo;
+        }
+        else {
+          $others[] = $nextTo;
+        }
+      }
+      if ($conjugatedForms) {
+        $html .= "<dt>Conjugated forms</dt><dd><ul>";
+        foreach ($conjugatedForms as $nextTo) {
+          $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        $html .= "</ul></dd>";
+      }
+      if ($subjunctives) {
+        $html .= "<dt>Subjunctive</dt><dd>";
+        foreach ($subjunctives as $nextTo) {
+					$html .= "<a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a>";
+				}
+        $html .= "</dd>";
+      }
+      if ($pasts) {
+        $html .= "<dt>Past</dt><dd>";
+        foreach ($pasts as $nextTo) {
+					$html .= "<a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a>";
+				}
+        $html .= "</dd>";
+      }
+
+			if ($presents || $optatives || $middles) {
+				$html .= "<dt>Tenses, moods etc.</dt><dd><ul>";
+				foreach ($presents as $nextTo) {
+					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= "</li>";
+				}
+				foreach ($optatives as $nextTo) {
+					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= "</li>";
+				}
+				foreach ($middles as $nextTo) {
+					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+					$lang2 = $nextTo[2];
+					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+					$html .= "</li>";
+				}
+				$html .= "</ul></dd>";
+			}
+
+			if ($compounds) {
+        $html .= "<dt>Compounds</dt><dd><ul>";
+        foreach ($compounds as $nextTo) {
+          $html .= "<li><a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        $html .= "</ul></dd>";
+      }
+
+      if ($derivatives) {
+        $html .= "<dt>Derivatives</dt><dd><ul>";
+        foreach ($derivatives as $nextTo) {
+          //$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $html .= "<li>" . "<a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        $html .= "</ul></dd>";
+      }
+
+      if ($others) {
+        $html .= "<dt>others</dt><dd><ul>";
+				foreach ($imperfectives as $nextTo) {
+          $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        foreach ($others as $nextTo) {
+          //$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $html .= "<li>" . "<a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        $html .= "</ul></dd>";
+      }
+
+      if ($etymons) {
+        $html .= "<dt>Etymon of </dt><dd><ul>";
+        foreach ($etymons as $nextTo) {
+          $lang2 = $nextTo[2];
+          $html .= "<li>[" . models\language::nameLang($lang2) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        $html .= "</ul></dd>";
+      }
+			if ($cfs) {
+        $html .= "<dt>See also</dt><dd><ul>";
+        foreach ($cfs as $nextTo) {
+          $html .= "<li><a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        $html .= "</ul></dd>";
+      }
+    }
+
     $froms = $this->_model->getFroms();
     if ($froms) {
       $etymons = [];
@@ -54,145 +225,7 @@ class entry {
         $html .= "</ul></dd>";
       }
     }
-    $tos = $this->_model->getTos();
-    if ($tos) {
-      $conjugatedForms = [];
-			$presents = [];
-			$pasts = [];
-			$subjunctives = [];
-			$optatives = [];
-			$middles = [];
-			$imperfectives = [];
-      $derivatives = [];
-      $etymons = [];
-			$cfs = [];
-			$compounds = [];
-      foreach ($tos as $nextTo) {
-        if ($nextTo[1]=="etymon") {
-          $etymons[] = $nextTo;
-        }
-				else if ($nextTo[1]=="cf") {
-          $cfs[] = $nextTo;
-        }
-				else if ($nextTo[1]=="compound") {
-          $compounds[] = $nextTo;
-        }
-				else if ($nextTo[1]=="present") {
-          $presents[] = $nextTo;
-        }
-				else if ($nextTo[1]=="past") {
-          $pasts[] = $nextTo;
-        }
-				else if ($nextTo[1]=="subjunctive") {
-          $subjunctives[] = $nextTo;
-        }
-				else if ($nextTo[1]=="optative") {
-          $optatives[] = $nextTo;
-        }
-				else if ($nextTo[1]=="middle") {
-          $middles[] = $nextTo;
-        }
-				else if ($nextTo[1]=="imperfective") {
-          $imperfectives[] = $nextTo;
-        }
-        else if (strpos($nextTo[1],"1")!==FALSE || strpos($nextTo[1],"2")!==FALSE || strpos($nextTo[1],"3")!==FALSE) {
-          $conjugatedForms[] = $nextTo;
-        }
-        else {
-          $derivatives[] = $nextTo;
-        }
-      }
-      if ($conjugatedForms) {
-        $html .= "<dt>Conjugated forms</dt><dd><ul>";
-        foreach ($conjugatedForms as $nextTo) {
-          $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-          $lang2 = $nextTo[2];
-          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-          $html .= "</li>";
-        }
-        $html .= "</ul></dd>";
-      }
-			if ($presents || $pasts || $subjunctives || $optatives || $middles) {
-				$html .= "<dt>Tenses, moods etc.</dt><dd><ul>";
-				foreach ($presents as $nextTo) {
-					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-					$lang2 = $nextTo[2];
-					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-					$html .= "</li>";
-				}
-				foreach ($pasts as $nextTo) {
-					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-					$lang2 = $nextTo[2];
-					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-					$html .= "</li>";
-				}
-				foreach ($subjunctives as $nextTo) {
-					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-					$lang2 = $nextTo[2];
-					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-					$html .= "</li>";
-				}
-				foreach ($optatives as $nextTo) {
-					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-					$lang2 = $nextTo[2];
-					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-					$html .= "</li>";
-				}
-				foreach ($middles as $nextTo) {
-					$html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-					$lang2 = $nextTo[2];
-					$html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-					$html .= "</li>";
-				}
-				$html .= "</ul></dd>";
-			}
-      if ($derivatives) {
-        $html .= "<dt>Derivatives</dt><dd><ul>";
-				foreach ($imperfectives as $nextTo) {
-          $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-          $lang2 = $nextTo[2];
-          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-          $html .= "</li>";
-        }
-        foreach ($derivatives as $nextTo) {
-          $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-          $lang2 = $nextTo[2];
-          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-          $html .= "</li>";
-        }
-        $html .= "</ul></dd>";
-      }
-			if ($compounds) {
-        $html .= "<dt>Compounds</dt><dd><ul>";
-        foreach ($compounds as $nextTo) {
-          $html .= "<li><a href=\"?id=" . $nextTo[0] . "\">" ;
-          $lang2 = $nextTo[2];
-          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-          $html .= "</li>";
-        }
-        $html .= "</ul></dd>";
-      }
-      if ($etymons) {
-        $html .= "<dt>Etymon of </dt><dd><ul>";
-        foreach ($etymons as $nextTo) {
-          $lang2 = $nextTo[2];
-          $html .= "<li>[" . models\language::nameLang($lang2) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
-          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-          $html .= "</li>";
-        }
-        $html .= "</ul></dd>";
-      }
-			if ($cfs) {
-        $html .= "<dt>See also</dt><dd><ul>";
-        foreach ($cfs as $nextTo) {
-          $html .= "<li><a href=\"?id=" . $nextTo[0] . "\">" ;
-          $lang2 = $nextTo[2];
-          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
-          $html .= "</li>";
-        }
-        $html .= "</ul></dd>";
-      }
-    }
+
 		$notes = $this->_model->getNotes();
 		if ($notes) {
 			$html .= "<dt>Notes</dt><dd>" . $notes . "</dd>";
