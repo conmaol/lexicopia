@@ -29,6 +29,7 @@ class entry {
     $tos = $this->_model->getTos();
     if ($tos) {
       $conjugatedForms = [];
+      $declinedForms = [];
 			$presents = [];
 			$pasts = [];
 			$subjunctives = [];
@@ -74,6 +75,9 @@ class entry {
         else if (strpos($nextTo[1],"1")!==FALSE || strpos($nextTo[1],"2")!==FALSE || strpos($nextTo[1],"3")!==FALSE) {
           $conjugatedForms[] = $nextTo;
         }
+        else if (strpos($nextTo[1],"singular")!==FALSE || strpos($nextTo[1],"plural")!==FALSE) {
+          $declinedForms[] = $nextTo;
+        }
         else {
           $others[] = $nextTo;
         }
@@ -81,6 +85,16 @@ class entry {
       if ($conjugatedForms) {
         $html .= "<dt>Conjugated forms</dt><dd><ul>";
         foreach ($conjugatedForms as $nextTo) {
+          $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
+          $lang2 = $nextTo[2];
+          $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
+          $html .= "</li>";
+        }
+        $html .= "</ul></dd>";
+      }
+      if ($declinedForms) {
+        $html .= "<dt>Declined forms</dt><dd><ul>";
+        foreach ($declinedForms as $nextTo) {
           $html .= "<li>[" . $this->_describeLink($nextTo[1]) . "] <a href=\"?id=" . $nextTo[0] . "\">" ;
           $lang2 = $nextTo[2];
           $html .= models\language::normalise($nextTo[3],$lang2) . "</a> ";
